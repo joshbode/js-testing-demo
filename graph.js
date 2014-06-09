@@ -138,7 +138,16 @@ AbstractGraph.prototype.delEdge = function(key1, key2, _reverse) {
  * @param {string} key - The name of the node.
  */
 AbstractGraph.prototype.getNeighbors = function(key) {
-  return Object.keys(this.edges[key]);
+  try {
+    var neighbours = [];
+    for (var neighbour in this.edges[key]) {
+      neighbours.push(neighbour);
+    }
+    return neighbours;
+  }
+  catch (err) {
+    throw "Error: Node does not exist: " + key;
+  }
 };
 
 /**
