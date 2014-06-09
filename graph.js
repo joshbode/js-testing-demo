@@ -47,7 +47,7 @@ AbstractGraph.prototype.addEdge = function(key1, key2, value, _reverse) {
   this.edges[key1][key2] = value;
 
   // if undirected, add reversed edge
-  if (!(this.directed || _reverse)) {
+  if (!(_reverse || this.directed)) {
     this.addEdge(key2, key1, value, true);
   }
 };
@@ -86,11 +86,16 @@ AbstractGraph.prototype.edgeVal = function(key1, key2) {
  * @param {string} key2 - Node name (end node if directed).
  * @returns {boolean}
  */
-AbstractGraph.prototype.nodesConnected = function(key1, key2) {
-  connected = (key1 in this.edges) && (key2 in this.edges[key1]);
-  if (this.directed) {
-    connected |= (key2 in this.edges) && (key1 in this.edges[key2]);
+AbstractGraph.prototype.nodesConnected = function(key1, key2, _reverse) {
+  if (typeof _reverse === 'undefined') _reverse = false;
+
+  var connected = (key1 in this.edges) && (key2 in this.edges[key1]);
+
+  // if directed, check other direction for connectedness
+  if (!_reverse && this.directed && !connected) {
+    return this.nodesConnected(key2, key1, true);
   }
+
   return connected;
 };
 
@@ -123,7 +128,7 @@ AbstractGraph.prototype.delEdge = function(key1, key2, _reverse) {
   }
 
   // if undirected, remove reverse edge
-  if (!(this.directed || _reverse)) {
+  if (!(_reverse || this.directed)) {
     this.delEdge(key2, key1, true);
   }
 };
@@ -176,7 +181,7 @@ AbstractGraph.prototype.isConnectedGraph = function() {
 
 
 // testing
-var g = new AbstractGraph();
+var g = new AbstractGraph(false);
 var key1 = "aaa";
 var key2 = "bbb";
 var key3 = "ccc";
