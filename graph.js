@@ -76,7 +76,7 @@ AbstractGraph.prototype.edgeVal = function(key1, key2) {
   }
   catch (err) {
     throw "Error: Edge does not exist: " +
-      key1 + (this.directed ? ' <-> ' : ' -> ') + key2;
+      key1 + (this.directed ? ' -> ' : ' <-> ') + key2;
   }
 };
 
@@ -119,7 +119,7 @@ AbstractGraph.prototype.delEdge = function(key1, key2, _reverse) {
   }
   catch (err) {
     throw "Error: Edge does not exist: " +
-      key1 + (this.directed ? ' <-> ' : ' -> ') + key2;
+      key1 + (this.directed ? ' -> ' : ' <-> ') + key2;
   }
 
   // if undirected, remove reverse edge
