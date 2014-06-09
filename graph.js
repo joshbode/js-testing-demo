@@ -168,18 +168,18 @@ AbstractGraph.prototype.isConnectedGraph = function() {
   }
 
   // traverse the graph depth-first
-  var queue = [key];  // arbitrary starting point
+  var stack = [key];  // arbitrary starting point
   var seen = 0;
 
-  while (queue.length) {
-    key = queue.pop();
-    visited[key] = true;
+  while (stack.length) {
+    var curr = stack.pop();
+    visited[curr] = true;
     ++seen;
-    neighbours = this.getNeighbors(key);
+    var neighbours = this.getNeighbors(curr);
     for (var i = 0, L = neighbours.length; i < L; i++) {
       var neighbour = neighbours[i];
       if (!visited[neighbour]) {
-        queue.push(neighbour);
+        stack.push(neighbour);
       }
     }
   }
