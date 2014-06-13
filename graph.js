@@ -29,26 +29,21 @@ AbstractGraph.prototype.addNode = function(key, value) {
  * @param {string} key2 - Node name (end node if directed).
  * @param {object} value - Arbitrary value of edge.
  */
-AbstractGraph.prototype.addEdge = function(key1, key2, value, _reverse) {
-  if (typeof _reverse === 'undefined') _reverse = false;
-
-  // only check on first pass (or if directed)
-  if (!_reverse || this.directed) {
-    if (!(key1 in this.nodes)) {
-      //throw "Error: Node does not exist: " + key1;
-      return;
-    }
-    if (!(key2 in this.nodes)) {
-      //throw "Error: Node does not exist: " + key2;
-      return;
-    }
+AbstractGraph.prototype.addEdge = function(key1, key2, value) {
+  if (!(key1 in this.nodes)) {
+    //throw "Error: Node does not exist: " + key1;
+    return;
+  }
+  if (!(key2 in this.nodes)) {
+    //throw "Error: Node does not exist: " + key2;
+    return;
   }
 
   this.edges[key1][key2] = value;
 
   // if undirected, add reversed edge
-  if (!(_reverse || this.directed)) {
-    this.addEdge(key2, key1, value, true);
+  if (!this.directed) {
+    this.edges[key2][key1] = value;
   }
 };
 
@@ -86,17 +81,8 @@ AbstractGraph.prototype.edgeVal = function(key1, key2) {
  * @param {string} key2 - Node name (end node if directed).
  * @returns {boolean}
  */
-AbstractGraph.prototype.nodesConnected = function(key1, key2, _reverse) {
-  if (typeof _reverse === 'undefined') _reverse = false;
-
-  var connected = (key1 in this.edges) && (key2 in this.edges[key1]);
-
-  // if directed, check other direction for connectedness
-  if (!_reverse && this.directed && !connected) {
-    return this.nodesConnected(key2, key1, true);
-  }
-
-  return connected;
+AbstractGraph.prototype.nodesConnected = function(key1, key2) {
+  return (key1 in this.edges) && (key2 in this.edges[key1]);
 };
 
 /**
@@ -116,20 +102,24 @@ AbstractGraph.prototype.delNode = function(key) {
  * @param {string} key1 - Node name (start node if directed).
  * @param {string} key2 - Node name (end node if directed).
  */
-AbstractGraph.prototype.delEdge = function(key1, key2, _reverse) {
-  if (typeof _reverse === 'undefined') _reverse = false;
-
+AbstractGraph.prototype.delEdge = function(key1, key2) {
   try {
     delete this.edges[key1][key2];
   }
   catch (err) {
     throw "Error: Edge does not exist: " +
-      key1 + (this.directed ? ' -> ' : ' <-> ') + key2;
+      key1 + ' -> ' + key2;
   }
 
   // if undirected, remove reverse edge
-  if (!(_reverse || this.directed)) {
-    this.delEdge(key2, key1, true);
+  if (!this.directed) {
+    try {
+      delete this.edges[key2][key1];
+    }
+    catch (err) {
+      throw "Error: Edge does not exist: " +
+        key1 + ' <- ' + key2;
+    }
   }
 };
 
@@ -240,7 +230,7 @@ console.log('Should print false ', g.nodesConnected(key3, key2));
 console.log('Should print false ', g.nodesConnected(key6, key2));
 
 
-console.log('Should print ["bbb", "ddd"]', g.getNeighbors(key1));
+console.log('Should print ["ddd"]', g.getNeighbors(key1));
 console.log('Should print []', g.getNeighbors(key3));
 
 console.log('Should print false ', g.isConnectedGraph());
