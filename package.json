@@ -12,5 +12,8 @@
     "jasmine-core": "^2.0.0",
     "karma": "^0.12.16",
     "karma-phantomjs-launcher": "^0.1.4"
+  },
+  "scripts": {
+    "test": "grunt karma:continuous"
   }
 }

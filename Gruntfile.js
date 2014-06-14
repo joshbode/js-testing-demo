@@ -2,14 +2,18 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     karma: {
-      unit: {
+      options: {
         frameworks: ['jasmine'],
+        files: ['src/*.js', 'test/*.js']
+      },
+      continuous: {
+        singleRun: true,
+        browsers: ['PhantomJS']
+      },
+      dev: {
+        reporters: 'dots',
         browsers: ['PhantomJS'],
-        reporters: ['progress'],
-        autoWatch: true,
-        options: {
-          files: ['src/*.js', 'test/*.js']
-        }
+        autoWatch: true
       }
     },
     jsdoc: {

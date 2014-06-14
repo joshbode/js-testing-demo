@@ -7,7 +7,7 @@ describe("AbstractGraph", function() {
   var key5 = 'eee';
   var key6 = 'fff';
 
-  var value1 = {'something' : 'arbitrary'};
+  var value1 = {'something': 'arbitrary'};
   var value2 = ['Value', 'Really', 'Doesn\'t', 'Matter'];
   var value3 = 'Another Value';
 
