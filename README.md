@@ -15,19 +15,19 @@ Automated JavaScript BDD Testing and Documentation, using:
 
 1. Install `karma-cli` and `grunt-cli` (globally accessible):
 
-      $ npm install -g grunt-cli karma-cli
+        $ npm install -g grunt-cli karma-cli
 
 2. Install dev dependencies from `package.json`:
 
-      $ cd graph
-      $ npm install
+        $ cd graph
+        $ npm install
 
 
 ## Run Tests with `karma`
 
 1. Run `karma` grunt task:
 
-      $ grunt karma
+        $ grunt karma
 
 To perform testing via a real browser (rather than `PhantomJS`) update the
 `browsers` option in `Gruntfile.js` (e.g. `browsers: ['Firefox', 'Chrome']` to
@@ -38,6 +38,6 @@ test via Firefox _and_ Chrome simultaneously).
 
 1. Run `jsdoc` grunt task:
 
-      $ grunt jsdoc
+        $ grunt jsdoc
 
 2. Open [documentation](docs/index.html)
